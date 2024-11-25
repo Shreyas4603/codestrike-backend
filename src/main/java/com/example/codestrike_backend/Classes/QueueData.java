@@ -3,18 +3,24 @@ package com.example.codestrike_backend.Classes;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.web.context.request.async.DeferredResult;
 
-public class QueueData  implements Comparable<QueueData>{
+import java.util.ArrayList;
+import java.util.List;
+
+public class QueueData implements Comparable<QueueData> {
     private String userId;
     private int rating;
     private DeferredResult<String> result;
+    private ArrayList<String> attemptedQuestions; // New field for attempted questions
 
-    public QueueData(String userId, int rating, DeferredResult<String> result) {
+    public QueueData(String userId, int rating, DeferredResult<String> result, ArrayList<String> attemptedQuestions) {
         this.userId = userId;
         this.rating = rating;
         this.result = result;
+        this.attemptedQuestions = attemptedQuestions;
     }
 
     public QueueData() {
+        this.attemptedQuestions = new ArrayList<>(); // Initialize to avoid null
     }
 
     public String getUserId() {
@@ -41,8 +47,16 @@ public class QueueData  implements Comparable<QueueData>{
         this.result = result;
     }
 
+    public List<String> getAttemptedQuestions() {
+        return attemptedQuestions;
+    }
+
+    public void setAttemptedQuestions(ArrayList<String> attemptedQuestions) {
+        this.attemptedQuestions = attemptedQuestions;
+    }
+
     @Override
-    public int compareTo(QueueData other) {
+    public int compareTo(@NotNull QueueData other) {
         return Integer.compare(other.getRating(), this.getRating());
     }
 }

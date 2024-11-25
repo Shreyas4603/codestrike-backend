@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.async.DeferredResult;
 
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.concurrent.PriorityBlockingQueue;
 
@@ -41,12 +42,15 @@ public class StartMatchService {
     public DeferredResult<String> AddPlayerToQueue(HttpServletRequest request) {
         String userId = (String) request.getAttribute("userId");
         int rating;
+        ArrayList<String> attemptedQuestions;
         Optional<UserGameData> userGameDataOptional = userGameDataRepository.findByUserId(userId);
 
         if (userGameDataOptional.isPresent()) {
             rating = userGameDataOptional.get().getRating();
+            attemptedQuestions=userGameDataOptional.get().getAttemptedQuestions();
+
             DeferredResult<String> result = new DeferredResult<>(null);
-            QueueData queueData = new QueueData(userId, rating, result);
+            QueueData queueData = new QueueData(userId, rating ,result,attemptedQuestions);
 
             // Add to the respective queues based on rating
             if (rating >= 0 && rating <= 200) {
