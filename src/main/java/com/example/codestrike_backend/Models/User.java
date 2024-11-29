@@ -1,23 +1,17 @@
 package com.example.codestrike_backend.Models;
 
-
-
-import org.springframework.context.event.EventListener;
 import org.springframework.data.annotation.CreatedDate;
-
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.Instant;
-import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.data.mongodb.core.mapping.Field;
-import org.springframework.data.mongodb.core.mapping.event.BeforeSaveEvent;
 
 @Document(collection = "Users")
 public class User {
- // MongoDB default ObjectId
 
     @Field("userId") // Explicitly map userId
     private String userId;
@@ -42,7 +36,7 @@ public class User {
         this.username = username;
     }
 
-
+    // Getters and Setters
     public String getUserId() {
         return userId;
     }
@@ -75,39 +69,32 @@ public class User {
         this.username = username;
     }
 
-    @EventListener(BeforeSaveEvent.class)
-    public void generateUUID() {
-        if (this.userId == null) {
-            this.userId = UUID.randomUUID().toString();
-        }
+    // Removed the generateUUID method as it's already handled in the constructor
+
+    public Map<String, Object> userData() {
+        return Map.of(
+                "id", this.userId,
+                "email", this.email
+        );
     }
-
-    public Object userData() {
-        HashMap<Object, Object> data = new HashMap<>();
-        data.put("id", this.userId);
-        data.put("email", this.email);
-        return data;
-    }
-
-
-
 
     public Instant getCreatedAt() {
         return createdAt;
-    }
-
-    public void setCreatedAt(Instant createdAt) {
-        this.createdAt = createdAt;
     }
 
     public Instant getModifiedAt() {
         return modifiedAt;
     }
 
-    public void setModifiedAt(Instant modifiedAt) {
-        this.modifiedAt = modifiedAt;
+    // toString method (optional)
+    @Override
+    public String toString() {
+        return "User{" +
+                "userId='" + userId + '\'' +
+                ", email='" + email + '\'' +
+                ", username='" + username + '\'' +
+                ", createdAt=" + createdAt +
+                ", modifiedAt=" + modifiedAt +
+                '}';
     }
-
-
-
 }

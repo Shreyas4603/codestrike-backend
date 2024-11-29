@@ -1,6 +1,5 @@
 package com.example.codestrike_backend.Models;
 
-
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -16,39 +15,24 @@ public class UserGameData {
     @Field("gameDataID")
     private String gameDataID;
     private String userId;
-    private int wins;
-    private int rating;
-    private int losses;
-    private ArrayList<String> attemptedQuestions;
-
-    public ArrayList<String> getAttemptedQuestions() {
-        return attemptedQuestions;
-    }
-
-    public void setAttemptedQuestions(ArrayList<String> attemptedQuestions) {
-        this.attemptedQuestions = attemptedQuestions;
-    }
-
-    public void addAttemptedQuestion(String questionId) {
-        if (this.attemptedQuestions == null) {
-            this.attemptedQuestions = new ArrayList<>(); // Initialize the list if it's null
-        }
-        this.attemptedQuestions.add(questionId); // Append the new question
-    }
-
+    private int wins = 0; // Default wins to 0
+    private int rating = 100; // Default rating to 100
+    private int losses = 0; // Default losses to 0
+    private ArrayList<String> attemptedQuestions = new ArrayList<>(); // Initialize the list directly
 
     public UserGameData() {
         this.gameDataID = UUID.randomUUID().toString();
     }
 
-    public UserGameData(String gameDataID, String userId, int wins, int rating, int losses) {
-        this.gameDataID = gameDataID;
+    public UserGameData(String userId, int wins, int rating, int losses) {
+        this.gameDataID = UUID.randomUUID().toString();
         this.userId = userId;
-        this.wins = wins; // Default wins to 0
-        this.rating = (rating == 0) ? 100 : rating; // Default rating to 100 if it's 0
-        this.losses = losses; // Default losses to 0
+        this.wins = wins;
+        this.rating = rating == 0 ? 100 : rating; // Default rating to 100 if it's 0
+        this.losses = losses;
     }
 
+    // Getters and Setters
     public String getGameDataID() {
         return gameDataID;
     }
@@ -89,27 +73,44 @@ public class UserGameData {
         this.losses = losses;
     }
 
+    public ArrayList<String> getAttemptedQuestions() {
+        return attemptedQuestions;
+    }
 
-    @CreatedDate // Automatically populate when the document is created
+    public void setAttemptedQuestions(ArrayList<String> attemptedQuestions) {
+        this.attemptedQuestions = attemptedQuestions;
+    }
+
+    public void addAttemptedQuestion(String questionId) {
+        this.attemptedQuestions.add(questionId); // No need for null check anymore
+    }
+
+    @CreatedDate
     private Instant createdAt;
 
-    @LastModifiedDate // Automatically update when the document is modified
+    @LastModifiedDate
     private Instant modifiedAt;
-
 
     public Instant getCreatedAt() {
         return createdAt;
-    }
-
-    public void setCreatedAt(Instant createdAt) {
-        this.createdAt = createdAt;
     }
 
     public Instant getModifiedAt() {
         return modifiedAt;
     }
 
-    public void setModifiedAt(Instant modifiedAt) {
-        this.modifiedAt = modifiedAt;
+    // toString method (optional)
+    @Override
+    public String toString() {
+        return "UserGameData{" +
+                "gameDataID='" + gameDataID + '\'' +
+                ", userId='" + userId + '\'' +
+                ", wins=" + wins +
+                ", rating=" + rating +
+                ", losses=" + losses +
+                ", attemptedQuestions=" + attemptedQuestions +
+                ", createdAt=" + createdAt +
+                ", modifiedAt=" + modifiedAt +
+                '}';
     }
 }

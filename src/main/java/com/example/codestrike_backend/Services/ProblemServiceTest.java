@@ -33,10 +33,16 @@ public class ProblemServiceTest {
         // Make the request and map the response to UniqueProblemResponse
         ResponseEntity<UniqueProblemResponse> res = nodeClient.getUnique(obj);
 
-        // Access the uniqueProblemId
-        String uniqueProblemId = Objects.requireNonNull(res.getBody()).getUniqueProblemId();
-        System.out.println("Unique Problem ID: " + uniqueProblemId);
+        // Null check and logging for better error handling
+        if (res != null && res.getBody() != null) {
+            // Access the uniqueProblemId
+            String uniqueProblemId = res.getBody().getUniqueProblemId();
+            System.out.println("Unique Problem ID: " + uniqueProblemId);
 
-        return uniqueProblemId;
+            return uniqueProblemId;
+        } else {
+            System.err.println("Failed to retrieve unique problem ID: Response or body is null.");
+            return null;
+        }
     }
 }
