@@ -120,21 +120,30 @@ public class MatchMakeHelper {
             log.info("Unique Problem ID generated: {}", uniqueProblemId);
 
             // Create match entity to save in the repository
-            LocalDateTime startTime = player1.getStartTime();
-            LocalDateTime endTime = startTime.plusMinutes(timeToFinish);
+            LocalDateTime player1StartTime = player1.getStartTime();
+            LocalDateTime player2StartTime = player2.getStartTime();
+
+            LocalDateTime player1EndTime = player1StartTime.plusMinutes(timeToFinish);
+            LocalDateTime player2EndTime = player2StartTime.plusMinutes(timeToFinish);
+
+
 
             // Save match details
             Match matchObj = new Match();
             matchObj.setPlayer1Id(player1.getUserId());
             matchObj.setPlayer2Id(player2.getUserId());
-            matchObj.setStartTime(startTime);
-            matchObj.setEndTime(endTime);
+            matchObj.setPlayer1StartTime(player1StartTime);
+            matchObj.setPlayer2StartTime(player2StartTime);
+            matchObj.setPlayer1EndTime(player1EndTime);
+            matchObj.setPlayer2EndTime(player2EndTime);
             matchObj.setProblemId(uniqueProblemId);
             matchRepository.save(matchObj);
 
             // Set match data for both players
             player1.getResult().setResult(matchObj.getMatchId());
             player2.getResult().setResult(matchObj.getMatchId());
+
+            System.out.println(matchObj.toString());
 
         } catch (Exception e) {
             // Log error and notify players

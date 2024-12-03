@@ -17,8 +17,10 @@ public class Match {
     private String problemId; // Identifier for the problem associated with the match
     private String player1Id; // Identifier for player 1
     private String player2Id; // Identifier for player 2
-    private LocalDateTime startTime; // Start time of the match
-    private LocalDateTime endTime; // End time of the match
+    private LocalDateTime player1StartTime; // Start time for player 1
+    private LocalDateTime player2StartTime; // Start time for player 2
+    private LocalDateTime player1EndTime; // End time for player 1
+    private LocalDateTime player2EndTime; // End time for player 2
 
     @CreatedDate // Automatically populate when the document is created
     private Instant createdAt;
@@ -31,13 +33,17 @@ public class Match {
         this.matchId = UUID.randomUUID().toString(); // Ensure matchId is generated on creation
     }
 
-    public Match(String matchId, String problemId, String player1Id, String player2Id, LocalDateTime startTime, LocalDateTime endTime) {
+    public Match(String matchId, String problemId, String player1Id, String player2Id,
+                 LocalDateTime player1StartTime, LocalDateTime player1EndTime,
+                 LocalDateTime player2StartTime, LocalDateTime player2EndTime) {
         this.matchId = (matchId == null) ? UUID.randomUUID().toString() : matchId; // Generate UUID if null
         this.problemId = problemId;
         this.player1Id = player1Id;
         this.player2Id = player2Id;
-        this.startTime = startTime;
-        this.endTime = endTime;
+        this.player1StartTime = player1StartTime;
+        this.player1EndTime = player1EndTime;
+        this.player2StartTime = player2StartTime;
+        this.player2EndTime = player2EndTime;
     }
 
     // Getters and Setters
@@ -73,30 +79,52 @@ public class Match {
         this.player2Id = player2Id;
     }
 
-    public LocalDateTime getStartTime() {
-        return startTime;
+    public LocalDateTime getPlayer1StartTime() {
+        return player1StartTime;
     }
 
-    public void setStartTime(LocalDateTime startTime) {
-        this.startTime = startTime;
+    public void setPlayer1StartTime(LocalDateTime player1StartTime) {
+        this.player1StartTime = player1StartTime;
     }
 
-    public LocalDateTime getEndTime() {
-        return endTime;
+    public LocalDateTime getPlayer2StartTime() {
+        return player2StartTime;
     }
 
-    public void setEndTime(LocalDateTime endTime) {
-        this.endTime = endTime;
+    public void setPlayer2StartTime(LocalDateTime player2StartTime) {
+        this.player2StartTime = player2StartTime;
     }
 
-    // @CreatedDate and @LastModifiedDate are handled automatically by Spring Data MongoDB
+    public LocalDateTime getPlayer1EndTime() {
+        return player1EndTime;
+    }
+
+    public void setPlayer1EndTime(LocalDateTime player1EndTime) {
+        this.player1EndTime = player1EndTime;
+    }
+
+    public LocalDateTime getPlayer2EndTime() {
+        return player2EndTime;
+    }
+
+    public void setPlayer2EndTime(LocalDateTime player2EndTime) {
+        this.player2EndTime = player2EndTime;
+    }
 
     public Instant getCreatedAt() {
         return createdAt;
     }
 
+    public void setCreatedAt(Instant createdAt) {
+        this.createdAt = createdAt;
+    }
+
     public Instant getModifiedAt() {
         return modifiedAt;
+    }
+
+    public void setModifiedAt(Instant modifiedAt) {
+        this.modifiedAt = modifiedAt;
     }
 
     // toString method
@@ -107,8 +135,12 @@ public class Match {
                 ", problemId='" + problemId + '\'' +
                 ", player1Id='" + player1Id + '\'' +
                 ", player2Id='" + player2Id + '\'' +
-                ", startTime=" + startTime +
-                ", endTime=" + endTime +
+                ", player1StartTime=" + player1StartTime +
+                ", player1EndTime=" + player1EndTime +
+                ", player2StartTime=" + player2StartTime +
+                ", player2EndTime=" + player2EndTime +
+                ", createdAt=" + createdAt +
+                ", modifiedAt=" + modifiedAt +
                 '}';
     }
 }

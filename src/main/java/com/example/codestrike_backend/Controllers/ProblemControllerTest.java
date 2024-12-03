@@ -1,5 +1,6 @@
 package com.example.codestrike_backend.Controllers;
 
+import com.example.codestrike_backend.Repositories.MatchRepository;
 import com.example.codestrike_backend.Services.ProblemServiceTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +21,8 @@ public class ProblemControllerTest {
     @Autowired
     private ProblemServiceTest problemServiceTest;
 
+    @Autowired
+    private MatchRepository matchRepository;
     /**
      * Endpoint to retrieve a unique problem question.
      *
@@ -41,7 +44,7 @@ public class ProblemControllerTest {
     }
 
     @GetMapping("")
-    public  String test(){
-        return "Hi there you have broken cors!";
+    public  Object test(){
+        return matchRepository.findAll();
     }
 }
