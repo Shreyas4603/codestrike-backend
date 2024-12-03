@@ -39,4 +39,9 @@ public class ProblemControllerTest {
         // Return the unique problem question response
         return res;
     }
+
+    @GetMapping("")
+    public  String test(){
+        return "Hi there you have broken cors!";
+    }
 }
