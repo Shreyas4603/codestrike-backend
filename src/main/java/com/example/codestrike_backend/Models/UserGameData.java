@@ -18,18 +18,28 @@ public class UserGameData {
     private int wins = 0; // Default wins to 0
     private int rating = 100; // Default rating to 100
     private int losses = 0; // Default losses to 0
+    private String rank="Novice";
     private ArrayList<String> attemptedQuestions = new ArrayList<>(); // Initialize the list directly
 
     public UserGameData() {
         this.gameDataID = UUID.randomUUID().toString();
     }
 
-    public UserGameData(String userId, int wins, int rating, int losses) {
+    public UserGameData(String userId, int wins, int rating, int losses,String rank) {
         this.gameDataID = UUID.randomUUID().toString();
         this.userId = userId;
         this.wins = wins;
         this.rating = rating == 0 ? 100 : rating; // Default rating to 100 if it's 0
         this.losses = losses;
+        this.rank=rank;
+    }
+
+    public String getRank() {
+        return rank;
+    }
+
+    public void setRank(String rank) {
+        this.rank = rank;
     }
 
     // Getters and Setters

@@ -21,6 +21,8 @@ public class Match {
     private LocalDateTime player2StartTime; // Start time for player 2
     private LocalDateTime player1EndTime; // End time for player 1
     private LocalDateTime player2EndTime; // End time for player 2
+    private int numberOfPlayer1Submissions; // Count of submissions by player 1
+    private int numberOfPlayer2Submissions; // Count of submissions by player 2
 
     @CreatedDate // Automatically populate when the document is created
     private Instant createdAt;
@@ -35,7 +37,8 @@ public class Match {
 
     public Match(String matchId, String problemId, String player1Id, String player2Id,
                  LocalDateTime player1StartTime, LocalDateTime player1EndTime,
-                 LocalDateTime player2StartTime, LocalDateTime player2EndTime) {
+                 LocalDateTime player2StartTime, LocalDateTime player2EndTime,
+                 int numberOfPlayer1Submissions, int numberOfPlayer2Submissions) {
         this.matchId = (matchId == null) ? UUID.randomUUID().toString() : matchId; // Generate UUID if null
         this.problemId = problemId;
         this.player1Id = player1Id;
@@ -44,6 +47,8 @@ public class Match {
         this.player1EndTime = player1EndTime;
         this.player2StartTime = player2StartTime;
         this.player2EndTime = player2EndTime;
+        this.numberOfPlayer1Submissions = numberOfPlayer1Submissions;
+        this.numberOfPlayer2Submissions = numberOfPlayer2Submissions;
     }
 
     // Getters and Setters
@@ -111,6 +116,22 @@ public class Match {
         this.player2EndTime = player2EndTime;
     }
 
+    public int getNumberOfPlayer1Submissions() {
+        return numberOfPlayer1Submissions;
+    }
+
+    public void setNumberOfPlayer1Submissions(int numberOfPlayer1Submissions) {
+        this.numberOfPlayer1Submissions = numberOfPlayer1Submissions;
+    }
+
+    public int getNumberOfPlayer2Submissions() {
+        return numberOfPlayer2Submissions;
+    }
+
+    public void setNumberOfPlayer2Submissions(int numberOfPlayer2Submissions) {
+        this.numberOfPlayer2Submissions = numberOfPlayer2Submissions;
+    }
+
     public Instant getCreatedAt() {
         return createdAt;
     }
@@ -139,6 +160,8 @@ public class Match {
                 ", player1EndTime=" + player1EndTime +
                 ", player2StartTime=" + player2StartTime +
                 ", player2EndTime=" + player2EndTime +
+                ", numberOfPlayer1Submissions=" + numberOfPlayer1Submissions +
+                ", numberOfPlayer2Submissions=" + numberOfPlayer2Submissions +
                 ", createdAt=" + createdAt +
                 ", modifiedAt=" + modifiedAt +
                 '}';

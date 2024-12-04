@@ -1,10 +1,12 @@
 package com.example.codestrike_backend.Clients;
 
+import com.example.codestrike_backend.Classes.ProblemDTO;
 import com.example.codestrike_backend.Classes.UniqueProblemId;
 import com.example.codestrike_backend.Classes.UniqueProblemResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -35,4 +37,7 @@ public interface NodeClient {
      */
     @PostMapping("/api/problem/unique")
     ResponseEntity<UniqueProblemResponse> getUnique(@RequestBody UniqueProblemId request);
+
+    @GetMapping("api/problem/{id}")
+    ResponseEntity <ProblemDTO> getProblemDetails(@PathVariable("id") String id );
 }
