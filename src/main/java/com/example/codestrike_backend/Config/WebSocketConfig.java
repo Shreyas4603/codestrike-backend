@@ -1,6 +1,7 @@
 package com.example.codestrike_backend.Config;
 
 import com.example.codestrike_backend.Handlers.GameWebSocketHandler;
+import com.example.codestrike_backend.Handlers.MatchWebSocketHandler;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.socket.config.annotation.EnableWebSocket;
 import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
@@ -20,13 +21,16 @@ public class WebSocketConfig implements WebSocketConfigurer {
     // GameWebSocketHandler to handle WebSocket connections and interactions
     private final GameWebSocketHandler gameWebSocketHandler;
 
+    private final MatchWebSocketHandler matchWebSocketHandler;
+
     /**
      * Constructor-based dependency injection for GameWebSocketHandler.
      *
      * @param gameWebSocketHandler the handler for managing WebSocket interactions
      */
-    public WebSocketConfig(GameWebSocketHandler gameWebSocketHandler) {
+    public WebSocketConfig(GameWebSocketHandler gameWebSocketHandler,MatchWebSocketHandler matchWebSocketHandler) {
         this.gameWebSocketHandler = gameWebSocketHandler;
+        this.matchWebSocketHandler=matchWebSocketHandler;
     }
 
     /**
@@ -41,6 +45,9 @@ public class WebSocketConfig implements WebSocketConfigurer {
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
         // Register the GameWebSocketHandler to handle requests at the "/ws" endpoint
         registry.addHandler(gameWebSocketHandler, "/ws")
-                .setAllowedOrigins("*"); // Allow connections from any origin (can be restricted for security)
+                .setAllowedOrigins("*");
+
+        registry.addHandler(matchWebSocketHandler, "/ws/match/{matchId}")
+                .setAllowedOrigins("*");
     }
 }

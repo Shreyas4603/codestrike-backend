@@ -1,6 +1,7 @@
 package com.example.codestrike_backend.Models;
 
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
@@ -12,26 +13,40 @@ import java.util.UUID;
 @Document(collection = "UserGameData")
 public class UserGameData {
 
+
+    @Id
+    private String _id;
+
+
     @Field("gameDataID")
     private String gameDataID;
     private String userId;
     private int wins = 0; // Default wins to 0
     private int rating = 100; // Default rating to 100
     private int losses = 0; // Default losses to 0
-    private String rank="Novice";
+    private String rank="novice";
     private ArrayList<String> attemptedQuestions = new ArrayList<>(); // Initialize the list directly
 
     public UserGameData() {
         this.gameDataID = UUID.randomUUID().toString();
     }
 
-    public UserGameData(String userId, int wins, int rating, int losses,String rank) {
+    public UserGameData(String userId, int wins, int rating, int losses,String rank,String _id) {
         this.gameDataID = UUID.randomUUID().toString();
         this.userId = userId;
         this.wins = wins;
         this.rating = rating == 0 ? 100 : rating; // Default rating to 100 if it's 0
         this.losses = losses;
         this.rank=rank;
+        this._id=_id;
+    }
+
+    public String get_id() {
+        return _id;
+    }
+
+    public void set_id(String _id) {
+        this._id = _id;
     }
 
     public String getRank() {

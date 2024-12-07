@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
  * system metrics such as memory usage and CPU load.
  */
 @RestController
-@RequestMapping("/api/server")
+@RequestMapping("")
 public class ServerMonitorController {
 
     // Service layer dependency for fetching server metrics
@@ -31,7 +31,7 @@ public class ServerMonitorController {
      *
      * @return a ResponseEntity containing a status message and HTTP OK status
      */
-    @GetMapping("/status")
+    @GetMapping("")
     public ResponseEntity<String> checkStatus() {
         // Simple message indicating server is running
         return new ResponseEntity<>("Server is running at port 8080", HttpStatus.OK);

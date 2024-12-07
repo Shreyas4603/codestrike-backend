@@ -14,6 +14,8 @@ import java.util.List;
 public class QueueData implements Comparable<QueueData> {
 
     // Unique identifier for the user
+    private String _id;
+
     private String userId;
 
     // User's rating used for matchmaking purposes
@@ -38,12 +40,21 @@ public class QueueData implements Comparable<QueueData> {
      * @param attemptedQuestions a list of attempted question IDs
      * @param startTime         the time the user joined the queue
      */
-    public QueueData(String userId, int rating, DeferredResult<String> result, ArrayList<String> attemptedQuestions, LocalDateTime startTime) {
+    public QueueData(String userId, int rating, DeferredResult<String> result, ArrayList<String> attemptedQuestions, LocalDateTime startTime,String _id) {
         this.userId = userId;
         this.rating = rating;
         this.result = result;
         this.attemptedQuestions = (attemptedQuestions != null) ? attemptedQuestions : new ArrayList<>();
         this.startTime = startTime;
+        this._id=_id;
+    }
+
+    public String get_id() {
+        return _id;
+    }
+
+    public void set_id(String _id) {
+        this._id = _id;
     }
 
     /**

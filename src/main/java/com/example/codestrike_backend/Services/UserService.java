@@ -79,7 +79,7 @@ public class UserService {
 
         // Create initial game data for the newly registered user
         UserGameData initialData = new UserGameData();
-        initialData.setUserId(savedUser.getUserId()); // Set user ID
+        initialData.setUserId(savedUser.getId()); // Set user ID
         initialData.setWins(0); // Initialize wins to 0
         initialData.setLosses(0); // Initialize losses to 0
         initialData.setRating(100); // Default rating set to 100
@@ -120,11 +120,12 @@ public class UserService {
             // Check if the provided password matches the hashed password in the database
             if (encoder.matches(body.getPassword(), user.getPassword())) {
                 // Generate JWT token on successful authentication
-                String token = jwtService.generateToken(user.getUserId());
+                String token = jwtService.generateToken(user.getId());
 
                 // Respond with login success and token
                 res.put("data", "Login Successful");
                 res.put("token", token);
+                res.put("_id", user.getId());
                 return new ResponseEntity<>(res, HttpStatus.OK); // HTTP 200 for successful login
             } else {
                 // Respond with incorrect password error

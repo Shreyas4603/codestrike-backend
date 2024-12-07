@@ -52,7 +52,7 @@ public class QueueProcessingService {
 
             // If the current queue has fewer than 2 players, skip to the next one
             if (currentQueue.size() < 2) {
-                System.out.println("Skipped queue: " + i + " (Not enough players)");
+//                System.out.println("Skipped queue: " + i + " (Not enough players)");
                 continue;
             }
 
@@ -72,6 +72,6 @@ public class QueueProcessingService {
         }
 
         // If no matches were found in any queue, log that information
-        System.out.println("No matches found in any queue.");
+//        System.out.println("No matches found in any queue.");
     }
 }

@@ -1,6 +1,7 @@
 package com.example.codestrike_backend.Models;
 
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
@@ -12,6 +13,9 @@ import java.util.UUID;
 @Document(collection = "match")
 public class Match {
 
+
+    @Id
+    private String _id;
     @Field("matchId")
     private String matchId; // Unique identifier for the match
     private String problemId; // Identifier for the problem associated with the match
@@ -23,6 +27,17 @@ public class Match {
     private LocalDateTime player2EndTime; // End time for player 2
     private int numberOfPlayer1Submissions; // Count of submissions by player 1
     private int numberOfPlayer2Submissions; // Count of submissions by player 2
+    private double p1ExecutionTime= Double.MAX_VALUE;;
+    private double p2ExecutionTime= Double.MAX_VALUE;;
+
+    // Player test case results
+    private int player1TotalTestCases;
+    private int player1Passed;
+    private int player1Failed;
+
+    private int player2TotalTestCases;
+    private int player2Passed;
+    private int player2Failed;
 
     @CreatedDate // Automatically populate when the document is created
     private Instant createdAt;
@@ -35,11 +50,16 @@ public class Match {
         this.matchId = UUID.randomUUID().toString(); // Ensure matchId is generated on creation
     }
 
-    public Match(String matchId, String problemId, String player1Id, String player2Id,
+    // Constructor for setting all values
+    public Match(String matchId, String _id,String problemId, String player1Id, String player2Id,
                  LocalDateTime player1StartTime, LocalDateTime player1EndTime,
                  LocalDateTime player2StartTime, LocalDateTime player2EndTime,
-                 int numberOfPlayer1Submissions, int numberOfPlayer2Submissions) {
-        this.matchId = (matchId == null) ? UUID.randomUUID().toString() : matchId; // Generate UUID if null
+                 int numberOfPlayer1Submissions, int numberOfPlayer2Submissions,
+                 double p1ExecutionTime, double p2ExecutionTime,
+                 int player1TotalTestCases, int player1Passed, int player1Failed,
+                 int player2TotalTestCases, int player2Passed, int player2Failed) {
+        this._id=_id;
+        this.matchId = matchId;
         this.problemId = problemId;
         this.player1Id = player1Id;
         this.player2Id = player2Id;
@@ -49,9 +69,27 @@ public class Match {
         this.player2EndTime = player2EndTime;
         this.numberOfPlayer1Submissions = numberOfPlayer1Submissions;
         this.numberOfPlayer2Submissions = numberOfPlayer2Submissions;
+        this.p1ExecutionTime = p1ExecutionTime;
+        this.p2ExecutionTime = p2ExecutionTime;
+        this.player1TotalTestCases = player1TotalTestCases;
+        this.player1Passed = player1Passed;
+        this.player1Failed = player1Failed;
+        this.player2TotalTestCases = player2TotalTestCases;
+        this.player2Passed = player2Passed;
+        this.player2Failed = player2Failed;
     }
 
-    // Getters and Setters
+    // Getters and Setters for all fields
+
+
+    public String get_id() {
+        return _id;
+    }
+
+    public void set_id(String _id) {
+        this._id = _id;
+    }
+
     public String getMatchId() {
         return matchId;
     }
@@ -132,6 +170,74 @@ public class Match {
         this.numberOfPlayer2Submissions = numberOfPlayer2Submissions;
     }
 
+    public double getP1ExecutionTime() {
+        return p1ExecutionTime;
+    }
+
+    public void setP1ExecutionTime(double p1ExecutionTime) {
+        this.p1ExecutionTime = p1ExecutionTime;
+    }
+
+    public double getP2ExecutionTime() {
+        return p2ExecutionTime;
+    }
+
+    public void setP2ExecutionTime(double p2ExecutionTime) {
+        this.p2ExecutionTime = p2ExecutionTime;
+    }
+
+    public int getPlayer1TotalTestCases() {
+        return player1TotalTestCases;
+    }
+
+    public void setPlayer1TotalTestCases(int player1TotalTestCases) {
+        this.player1TotalTestCases = player1TotalTestCases;
+    }
+
+    public int getPlayer1Passed() {
+        return player1Passed;
+    }
+
+    public void setPlayer1Passed(int player1Passed) {
+        this.player1Passed = player1Passed;
+    }
+
+    public int getPlayer1Failed() {
+        return player1Failed;
+    }
+
+    public void setPlayer1Failed(int player1Failed) {
+        this.player1Failed = player1Failed;
+    }
+
+
+
+    public int getPlayer2TotalTestCases() {
+        return player2TotalTestCases;
+    }
+
+    public void setPlayer2TotalTestCases(int player2TotalTestCases) {
+        this.player2TotalTestCases = player2TotalTestCases;
+    }
+
+    public int getPlayer2Passed() {
+        return player2Passed;
+    }
+
+    public void setPlayer2Passed(int player2Passed) {
+        this.player2Passed = player2Passed;
+    }
+
+    public int getPlayer2Failed() {
+        return player2Failed;
+    }
+
+    public void setPlayer2Failed(int player2Failed) {
+        this.player2Failed = player2Failed;
+    }
+
+
+
     public Instant getCreatedAt() {
         return createdAt;
     }
@@ -148,7 +254,6 @@ public class Match {
         this.modifiedAt = modifiedAt;
     }
 
-    // toString method
     @Override
     public String toString() {
         return "Match{" +
@@ -162,6 +267,14 @@ public class Match {
                 ", player2EndTime=" + player2EndTime +
                 ", numberOfPlayer1Submissions=" + numberOfPlayer1Submissions +
                 ", numberOfPlayer2Submissions=" + numberOfPlayer2Submissions +
+                ", p1ExecutionTime=" + p1ExecutionTime +
+                ", p2ExecutionTime=" + p2ExecutionTime +
+                ", player1TotalTestCases=" + player1TotalTestCases +
+                ", player1Passed=" + player1Passed +
+                ", player1Failed=" + player1Failed +
+                ", player2TotalTestCases=" + player2TotalTestCases +
+                ", player2Passed=" + player2Passed +
+                ", player2Failed=" + player2Failed +
                 ", createdAt=" + createdAt +
                 ", modifiedAt=" + modifiedAt +
                 '}';

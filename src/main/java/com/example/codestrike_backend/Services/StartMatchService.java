@@ -57,7 +57,7 @@ public class StartMatchService {
 
         // Create QueueData for the player
         QueueData queueData = new QueueData(userId, userGameData.getRating(), result,
-                userGameData.getAttemptedQuestions(), body.getStartTime());
+                userGameData.getAttemptedQuestions(), body.getStartTime(),userId);
 
         // Add the player to the respective queue based on their rating
         assignPlayerToQueue(queueData);

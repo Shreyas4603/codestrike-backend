@@ -61,7 +61,8 @@ public class JwtFilter extends OncePerRequestFilter {
             System.out.println("Attempting authentication for user: " + userId);
 
             // Fetch user data from the repository
-            Optional<User> userOpt = userRepository.findByUserId(userId);
+            Optional<User> userOpt = userRepository.findById(userId);
+            System.out.println("user : "+userOpt.get());
 
             // Validate the token and check if the user exists
             if (userOpt.isPresent() && jwtService.validateToken(token, userOpt.get())) {

@@ -5,6 +5,7 @@ import com.example.codestrike_backend.Classes.UniqueProblemId;
 import com.example.codestrike_backend.Clients.NodeClient;
 import com.example.codestrike_backend.Handlers.GameWebSocketHandler;
 import com.example.codestrike_backend.Models.Match;
+import com.example.codestrike_backend.Models.UserGameData;
 import com.example.codestrike_backend.Repositories.MatchRepository;
 import com.example.codestrike_backend.Repositories.UserGameDataRepository;
 import org.slf4j.Logger;
@@ -125,6 +126,22 @@ public class MatchMakeHelper {
 
             LocalDateTime player1EndTime = player1StartTime.plusMinutes(timeToFinish);
             LocalDateTime player2EndTime = player2StartTime.plusMinutes(timeToFinish);
+
+            System.out.println("P1 "+player1.get_id());
+            System.out.println("P2 "+player2.get_id());
+
+            //Add the problem to attempted questions
+            UserGameData p1GameData=userGameDataRepository.findByUserId(player1.get_id()).get();
+            UserGameData p2GameData=userGameDataRepository.findByUserId(player2.get_id()).get();
+
+
+
+
+            p1GameData.addAttemptedQuestion(uniqueProblemId);
+            p2GameData.addAttemptedQuestion(uniqueProblemId);
+
+            userGameDataRepository.save(p1GameData);
+            userGameDataRepository.save(p2GameData);
 
 
 

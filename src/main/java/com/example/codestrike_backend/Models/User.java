@@ -1,6 +1,7 @@
 package com.example.codestrike_backend.Models;
 
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -12,6 +13,9 @@ import org.springframework.data.mongodb.core.mapping.Field;
 
 @Document(collection = "Users")
 public class User {
+
+    @Id
+    private String _id;
 
     @Field("userId") // Explicitly map userId
     private String userId;
@@ -25,11 +29,14 @@ public class User {
     @LastModifiedDate // Automatically update when the document is modified
     private Instant modifiedAt;
 
+    // Default constructor
     public User() {
         this.userId = UUID.randomUUID().toString();
     }
 
-    public User(String userId, String email, String password, String username) {
+    // Constructor with parameters, including _id
+    public User(String _id, String userId, String email, String password, String username) {
+        this._id = _id;
         this.userId = (userId == null) ? UUID.randomUUID().toString() : userId; // Generate UUID if null
         this.email = email;
         this.password = password;
@@ -37,6 +44,14 @@ public class User {
     }
 
     // Getters and Setters
+    public String getId() {
+        return _id;
+    }
+
+    public void setId(String _id) {
+        this._id = _id;
+    }
+
     public String getUserId() {
         return userId;
     }
@@ -69,28 +84,36 @@ public class User {
         this.username = username;
     }
 
-    // Removed the generateUUID method as it's already handled in the constructor
-
-    public Map<String, Object> userData() {
-        return Map.of(
-                "id", this.userId,
-                "email", this.email
-        );
-    }
-
     public Instant getCreatedAt() {
         return createdAt;
+    }
+
+    public void setCreatedAt(Instant createdAt) {
+        this.createdAt = createdAt;
     }
 
     public Instant getModifiedAt() {
         return modifiedAt;
     }
 
+    public void setModifiedAt(Instant modifiedAt) {
+        this.modifiedAt = modifiedAt;
+    }
+
+    // userData method
+    public Map<String, Object> userData() {
+        return Map.of(
+                "id", this._id,
+                "email", this.email
+        );
+    }
+
     // toString method (optional)
     @Override
     public String toString() {
         return "User{" +
-                "userId='" + userId + '\'' +
+                "_id='" + _id + '\'' +
+                ", userId='" + userId + '\'' +
                 ", email='" + email + '\'' +
                 ", username='" + username + '\'' +
                 ", createdAt=" + createdAt +

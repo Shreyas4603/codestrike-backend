@@ -96,7 +96,7 @@ public class JWTService {
 
     public boolean validateToken(String token, User user) {
         final String userId = extractId(token);
-        return (userId.equals(user.getUserId()) && !isTokenExpired(token));
+        return (userId.equals(user.getId()) && !isTokenExpired(token));
     }
 
     private boolean  isTokenExpired(String token){

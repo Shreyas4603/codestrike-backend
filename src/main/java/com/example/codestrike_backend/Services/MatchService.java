@@ -39,14 +39,20 @@ public class MatchService {
 
     public  MatchProblemDetails getMatchInfo(String id){ //it's the match id
 
-        Match matchDetails=matchRepository.findByMatchId(id).get();
+        Match matchDetails=matchRepository.findById(id).get();
+
+
+
+            System.out.println("Match : "+matchDetails);
+
+
 
         //Problem details
         ProblemDTO problemDetails= nodeClient.getProblemDetails(matchDetails.getProblemId()).getBody();
 
         //User details
-        User player1=userRepository.findByUserId(matchDetails.getPlayer1Id()).get();
-        User player2=userRepository.findByUserId(matchDetails.getPlayer2Id()).get();
+        User player1=userRepository.findById(matchDetails.getPlayer1Id()).get();
+        User player2=userRepository.findById(matchDetails.getPlayer2Id()).get();
 
         //UserGameData
         UserGameData player1GameData=userGameDataRepository.findByUserId(matchDetails.getPlayer1Id()).get();
