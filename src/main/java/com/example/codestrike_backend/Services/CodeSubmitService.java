@@ -119,8 +119,6 @@ public class CodeSubmitService {
                         matchDetails.getPlayer1Passed()
                 );
                 matchWebSocketHandler.sendMessageToMatch(matchDetails.get_id(), messageData);
-
-                // TODO: Check if total test cases == passed to end the match
             } else if (playerType == 2) {
                 matchDetails.setNumberOfPlayer2Submissions(matchDetails.getNumberOfPlayer2Submissions() + 1);
                 matchDetails.setP2ExecutionTime(result.getExecution_time_ms());
@@ -152,10 +150,6 @@ public class CodeSubmitService {
 
         // Return the result from the compiler
         return ResponseEntity.ok(compileResult);
-    }
-
-    public void matchEnd(){
-        //Match end
     }
 
     public HashMap<String, String> constructSocketMessage(String userId, int totalTestCases, int passed ) {
