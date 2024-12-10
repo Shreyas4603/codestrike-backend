@@ -11,7 +11,12 @@ import com.example.codestrike_backend.Repositories.MatchRepository;
 import com.example.codestrike_backend.Repositories.UserGameDataRepository;
 import com.example.codestrike_backend.Repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 @Service
 public class MatchService {
@@ -76,4 +81,27 @@ public class MatchService {
 
         return matchProblemDetails;
     }
+
+
+    public ResponseEntity<?> matchHistory(String userId) {
+        HashMap<Object, Object> response = new HashMap<>();
+        ArrayList<Object> matches = new ArrayList<>();
+
+        // Fetch all matches from the repository
+        List<Match> allMatches = matchRepository.findAll();
+
+        // Filter matches where userId matches player1Id or player2Id
+        for (Match match : allMatches) {
+            if (match.getPlayer1Id().equals(userId) || match.getPlayer2Id().equals(userId)) {
+                matches.add(match); // Add match to the result list
+            }
+        }
+
+        // Prepare the response
+        response.put("matches", matches);
+        response.put("count", matches.size());
+
+        return ResponseEntity.ok(response);
+    }
+
 }
