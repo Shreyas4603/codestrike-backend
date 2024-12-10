@@ -6,7 +6,9 @@ import com.example.codestrike_backend.Classes.ProblemDTO;
 import com.example.codestrike_backend.Models.Match;
 import com.example.codestrike_backend.Repositories.MatchRepository;
 import com.example.codestrike_backend.Services.MatchService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,4 +29,11 @@ public class MatchController {
 
         return  matchService.getMatchInfo(id);
     }
+
+    @GetMapping("/all")
+    public ResponseEntity<?> matchHistory(HttpServletRequest request){
+        return matchService.matchHistory((String) request.getAttribute("userId"));
+    }
+
+
 }

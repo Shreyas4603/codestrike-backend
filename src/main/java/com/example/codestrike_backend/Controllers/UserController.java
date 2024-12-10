@@ -56,4 +56,10 @@ public class UserController {
     public ResponseEntity<Object> loginUser(@RequestBody LoginRequest body) {
         return userService.login(body);
     }
+
+
+    @GetMapping("/profile")
+    public ResponseEntity<?> userProfile(HttpServletRequest request){
+        return userService.profile(request);
+    }
 }
