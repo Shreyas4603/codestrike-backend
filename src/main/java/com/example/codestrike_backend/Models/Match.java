@@ -39,6 +39,9 @@ public class Match {
     private int player2Passed;
     private int player2Failed;
 
+    private int p1DeltaRating;
+    private int p2DeltaRating;
+
     @CreatedDate // Automatically populate when the document is created
     private Instant createdAt;
 
@@ -57,7 +60,7 @@ public class Match {
                  int numberOfPlayer1Submissions, int numberOfPlayer2Submissions,
                  double p1ExecutionTime, double p2ExecutionTime,
                  int player1TotalTestCases, int player1Passed, int player1Failed,
-                 int player2TotalTestCases, int player2Passed, int player2Failed) {
+                 int player2TotalTestCases, int player2Passed, int player2Failed,int p1DeltaRating,int p2DeltaRating) {
         this._id=_id;
         this.matchId = matchId;
         this.problemId = problemId;
@@ -77,6 +80,8 @@ public class Match {
         this.player2TotalTestCases = player2TotalTestCases;
         this.player2Passed = player2Passed;
         this.player2Failed = player2Failed;
+        this.p1DeltaRating=p1DeltaRating;
+        this.p2DeltaRating=p2DeltaRating;
     }
 
     // Getters and Setters for all fields
@@ -252,6 +257,22 @@ public class Match {
 
     public void setModifiedAt(Instant modifiedAt) {
         this.modifiedAt = modifiedAt;
+    }
+
+    public int getP1DeltaRating() {
+        return p1DeltaRating;
+    }
+
+    public void setP1DeltaRating(int p1DeltaRating) {
+        this.p1DeltaRating = p1DeltaRating;
+    }
+
+    public int getP2DeltaRating() {
+        return p2DeltaRating;
+    }
+
+    public void setP2DeltaRating(int p2DeltaRating) {
+        this.p2DeltaRating = p2DeltaRating;
     }
 
     @Override

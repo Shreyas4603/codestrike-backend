@@ -41,7 +41,7 @@ public class CodeSubmitService {
      * @param match_Id The match's ID.
      * @return 1 if Player 1, 2 if Player 2, -1 if no match found or userId is invalid.
      */
-    private int getPlayerType(String userId, String match_Id) {
+    public int getPlayerType(String userId, String match_Id) {
         Optional<Match> optionalMatch = matchRepository.findById(match_Id);
         if (optionalMatch.isEmpty()) {
             return -1; // Match not found
