@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/users") // Use a more RESTful path
-@CrossOrigin(origins = "*") // Allows all origins for now, but should be restricted to specific origins in production
 public class UserController {
 
     private final UserService userService;
