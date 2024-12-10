@@ -5,6 +5,7 @@ import com.example.codestrike_backend.Models.User;
 import com.example.codestrike_backend.Models.UserGameData;
 import com.example.codestrike_backend.Repositories.UserGameDataRepository;
 import com.example.codestrike_backend.Repositories.UserRepository;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -138,5 +139,27 @@ public class UserService {
             res.put("data", "User doesn't exist");
             return new ResponseEntity<>(res, HttpStatus.FORBIDDEN); // HTTP 403 for non-existent user
         }
+    }
+
+    public ResponseEntity<?> profile(HttpServletRequest request){
+
+        String userId=(String) request.getAttribute("userId");
+
+        HashMap <Object,Object> response=new HashMap<>();
+
+        User user=userRepository.findById(userId).get();
+        UserGameData userGameData=userGameDataRepository.findByUserId(userId).get();
+
+        response.put("userId",user.getId());
+        response.put("username",user.getUsername());
+        response.put("wins",userGameData.getWins());
+        response.put("losses",userGameData.getLosses());
+        response.put("rank",userGameData.getRank());
+
+        return ResponseEntity.ok(response);
+
+
+
+
     }
 }
