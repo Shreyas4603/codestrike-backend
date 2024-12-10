@@ -126,6 +126,7 @@ public class UserService {
                 res.put("data", "Login Successful");
                 res.put("token", token);
                 res.put("_id", user.getId());
+                res.put("username", user.getUsername());
                 return new ResponseEntity<>(res, HttpStatus.OK); // HTTP 200 for successful login
             } else {
                 // Respond with incorrect password error
