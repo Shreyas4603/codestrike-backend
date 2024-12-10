@@ -157,8 +157,8 @@ public class MatchMakeHelper {
             matchRepository.save(matchObj);
 
             // Set match data for both players
-            player1.getResult().setResult(matchObj.getMatchId());
-            player2.getResult().setResult(matchObj.getMatchId());
+            player1.getResult().setResult(matchObj.get_id());
+            player2.getResult().setResult(matchObj.get_id());
 
             System.out.println(matchObj.toString());
 
