@@ -49,6 +49,7 @@ public class SecurityConfig {
                                 "metrics",
                                 "/api/start/match",
                                 "/",
+                                "api/**",
                                 "/api/problem/**"
                         ).permitAll()
                         .requestMatchers("/ws/**").permitAll() // Allow WebSocket endpoints

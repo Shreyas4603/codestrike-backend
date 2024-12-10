@@ -155,6 +155,7 @@ public class UserService {
         response.put("wins",userGameData.getWins());
         response.put("losses",userGameData.getLosses());
         response.put("rank",userGameData.getRank());
+        response.put("rating",userGameData.getRating());
 
         return ResponseEntity.ok(response);
 
