@@ -1,6 +1,7 @@
 package com.example.codestrike_backend.Services;
 
 import com.example.codestrike_backend.Classes.QueueData;
+import com.example.codestrike_backend.Handlers.GameWebSocketHandler;
 import com.example.codestrike_backend.Helpers.MatchMakeHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -18,6 +19,8 @@ public class QueueProcessingService {
     @Autowired
     private MatchMakeHelper matchMakeHelper;
 
+    @Autowired
+    private GameWebSocketHandler gameWebSocketHandler;
     /**
      * Constructor to initialize the queues with different levels
      *
@@ -39,12 +42,29 @@ public class QueueProcessingService {
         this.queues = new PriorityBlockingQueue[]{noviceQueue, coderQueue, hackerQueue, guruQueue, masterQueue};
     }
 
+    public boolean isPlayerOnlineOrRequeue(QueueData player1, QueueData player2, PriorityBlockingQueue<QueueData> queue) {
+        boolean isPlayer1Online = gameWebSocketHandler.isPlayerOnline(player1.getUserId());
+        boolean isPlayer2Online = gameWebSocketHandler.isPlayerOnline(player2.getUserId());
+
+        if (!isPlayer1Online) {
+            player1.getResult().setResult("Match cancelled due to opponent disconnect");
+            player2.getResult().setResult("Match cancelled due to opponent disconnect");
+        }
+
+        if (!isPlayer2Online) {
+            player1.getResult().setResult("Match cancelled due to opponent disconnect");
+            player2.getResult().setResult("Match cancelled due to opponent disconnect");
+        }
+
+        return isPlayer1Online && isPlayer2Online;
+    }
+
     /**
      * Scheduled task to process the queues every 2 seconds.
      * Matches players from each queue if there are at least two players in the queue.
      */
     @Scheduled(fixedDelay = 2000) // Runs every 2 seconds
-    public void processQueues() {
+    public void processQueues() throws InterruptedException {
         // Iterate over each queue in round-robin fashion
         for (int i = 0; i < queues.length; i++) {
             PriorityBlockingQueue<QueueData> currentQueue = queues[currentQueueIndex];
@@ -52,7 +72,8 @@ public class QueueProcessingService {
 
             // If the current queue has fewer than 2 players, skip to the next one
             if (currentQueue.size() < 2) {
-//                System.out.println("Skipped queue: " + i + " (Not enough players)");
+                System.out.println("Skipped queue: " + i + " (Not enough players)");
+//                Thread.sleep(3000); // Pause for 3000 milliseconds (3 seconds)
                 continue;
             }
 
@@ -64,7 +85,7 @@ public class QueueProcessingService {
             assert player1 != null && player2 != null;
 
             // Uncomment the next line if player availability checks are required
-            // if (!isPlayerOnlineOrRequeue(player1, player2, currentQueue)) { continue; }
+             if (!isPlayerOnlineOrRequeue(player1, player2, currentQueue)) { continue; }
 
             // Use the matchMakeHelper to create a match
             matchMakeHelper.createMatch(player1, player2);
@@ -72,6 +93,6 @@ public class QueueProcessingService {
         }
 
         // If no matches were found in any queue, log that information
-//        System.out.println("No matches found in any queue.");
+        System.out.println("No matches found in any queue.");
     }
 }
