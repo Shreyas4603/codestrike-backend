@@ -137,7 +137,7 @@ public class EndMatchService {
 
         // Normalize the ratings
         double winnerRating = normalizeRating(winnerRawRating, 20, 40); // Winner's rating in range 20-40
-        double loserRating = normalizeRating(loserRawRating, 10, 20);   // Loser's rating in range 10-20
+        double loserRating = normalizeRating(loserRawRating, 20, 30);   // Loser's rating in range 10-20
 
         // Adjust ratings based on rank
         double winnerMultiplier = getRankMultiplier(winnerRank);
@@ -148,7 +148,7 @@ public class EndMatchService {
 
         // Ensure ratings are clamped within their respective ranges
         winnerRating = Math.min(Math.max(winnerRating, 20), 40);
-        loserRating = Math.min(Math.max(loserRating, 10), 20);
+//        loserRating = Math.min(Math.max(loserRating, 20), 30);
 
 
         if(winnerType==1){
