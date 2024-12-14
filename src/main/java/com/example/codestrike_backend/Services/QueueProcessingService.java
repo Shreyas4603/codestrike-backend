@@ -8,6 +8,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.util.Iterator;
+import java.util.concurrent.PriorityBlockingQueue;
+import java.util.Iterator;
 import java.util.concurrent.PriorityBlockingQueue;
 
 @Service
@@ -42,6 +45,7 @@ public class QueueProcessingService {
         this.queues = new PriorityBlockingQueue[]{noviceQueue, coderQueue, hackerQueue, guruQueue, masterQueue};
     }
 
+
     public boolean isPlayerOnlineOrRequeue(QueueData player1, QueueData player2, PriorityBlockingQueue<QueueData> queue) {
         boolean isPlayer1Online = gameWebSocketHandler.isPlayerOnline(player1.getUserId());
         boolean isPlayer2Online = gameWebSocketHandler.isPlayerOnline(player2.getUserId());
@@ -49,15 +53,37 @@ public class QueueProcessingService {
         if (!isPlayer1Online) {
             player1.getResult().setResult("Match cancelled due to opponent disconnect");
             player2.getResult().setResult("Match cancelled due to opponent disconnect");
+            removePlayerFromQueue(player1, queue); // Remove player1 from queue if they are not online
         }
 
         if (!isPlayer2Online) {
             player1.getResult().setResult("Match cancelled due to opponent disconnect");
             player2.getResult().setResult("Match cancelled due to opponent disconnect");
+            removePlayerFromQueue(player2, queue); // Remove player2 from queue if they are not online
         }
 
         return isPlayer1Online && isPlayer2Online;
     }
+
+    private void removePlayerFromQueue(QueueData player, PriorityBlockingQueue<QueueData> queue) {
+        // Create a temporary queue to hold elements
+        PriorityBlockingQueue<QueueData> tempQueue = new PriorityBlockingQueue<>();
+
+        // Iterate over the original queue
+        for (QueueData currentPlayer : queue) {
+            // If current player is not the one to be removed, add to temporary queue
+            if (!currentPlayer.equals(player)) {
+                tempQueue.add(currentPlayer);
+            }
+        }
+
+        // Clear the original queue and add back the elements from the temp queue
+        queue.clear();
+        queue.addAll(tempQueue);
+    }
+
+
+
 
     /**
      * Scheduled task to process the queues every 2 seconds.
@@ -72,7 +98,7 @@ public class QueueProcessingService {
 
             // If the current queue has fewer than 2 players, skip to the next one
             if (currentQueue.size() < 2) {
-                System.out.println("Skipped queue: " + i + " (Not enough players)");
+                System.out.println("Skipped queue: " + i + " (Not enough players)"+"players in queue : "+ currentQueue.size());
 //                Thread.sleep(3000); // Pause for 3000 milliseconds (3 seconds)
                 continue;
             }
@@ -83,6 +109,19 @@ public class QueueProcessingService {
 
             // Ensure both players are non-null
             assert player1 != null && player2 != null;
+            try{
+                if( player1.get_id().equalsIgnoreCase(player2.get_id())){
+                    player1.getResult().setResult("CANCELLED");
+                    player2.getResult().setResult("CANCELLED");
+
+                    throw  new RuntimeException("two players same in queue");
+                }
+            } catch (Exception e) {
+                removePlayerFromQueue(player1,currentQueue);
+                removePlayerFromQueue(player2,currentQueue);
+
+            }
+
 
             // Uncomment the next line if player availability checks are required
              if (!isPlayerOnlineOrRequeue(player1, player2, currentQueue)) { continue; }
